@@ -27,21 +27,27 @@ public class App {
         System.out.println(listaDeFilmes.size());
 // Exibir e manipular os dados
 
-    GeradoraDeFigurinhas geradora = new GeradoraDeFigurinhas();
-        for (Map<String,String> filme : listaDeFilmes) {
+    var geradora = new GeradoraDeFigurinhas();
 
-            String urlImage = filme.get("image");
-            String titulo = filme.get("title");
+    for (int i = 0; i < 10; i++) {
+        
+        Map<String,String> filme = listaDeFilmes.get(i);
 
-            InputStream inputStream = new URL(urlImage).openStream();
-            String nomeArquivo = titulo + ".png";
+        String urlImage = filme.get("image").replaceAll("(@+)(.*).jpg$", "$1.jpg");
 
-            
-            geradora.cria(inputStream, nomeArquivo);
+        String titulo = filme.get("title");
 
-            System.out.println(titulo);
-            System.out.println();
-        }
+        InputStream inputStream = new URL(urlImage).openStream();
+        String nomeArquivo = "saida/" + titulo + ".png";
+
+        
+        geradora.cria(inputStream, nomeArquivo);
+
+        System.out.println(titulo);
+        System.out.println();
+    
+    }
+        
     }
 
     //DESAFIOS
