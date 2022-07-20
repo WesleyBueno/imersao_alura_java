@@ -1,10 +1,5 @@
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
 
@@ -13,29 +8,26 @@ public class App {
         
 // Fazer uma conexao HTTP e buscar o top 250 filmes do imdb
 
-        String url = "https://alura-imdb-api.herokuapp.com/movies";
-        URI endereco = URI.create(url);
-        var Client = HttpClient.newHttpClient();
-        var request = HttpRequest.newBuilder(endereco).GET().build();
-        HttpResponse<String> response = Client.send(request, BodyHandlers.ofString());
-        String body = response.body();
+        //String url = "https://alura-imdb-api.herokuapp.com/movies";
+        String url = "https://api.nasa.gov/planetary/apod?api_key=V2bmZkbDzlM0axxIFmU0tOU7d1pENOmNpjMepbVs&start_date=2022-07-20&end_date=2022-07-20";
+        
+
+        var http = new clientHttp();
+        String json = http.buscaDados(url);
         //System.out.println(body);
 
-// Extrair os dados que nos interessam (título, poster, rating) (Parsear as informacoes)
-        var parser = new JsonParser(); 
-        List<Map<String, String>> listaDeFilmes = parser.parse(body);
-        System.out.println(listaDeFilmes.size());
+
 // Exibir e manipular os dados
 
     var geradora = new GeradoraDeFigurinhas();
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 1; i++) {
         
-        Map<String,String> filme = listaDeFilmes.get(i);
+        Map<String,String> conteudo = listaDeConteudos.get(i);
 
-        String urlImage = filme.get("image").replaceAll("(@+)(.*).jpg$", "$1.jpg");
+        String urlImage = conteudo.get("url").replaceAll("(@+)(.*).jpg$", "$1.jpg");
 
-        String titulo = filme.get("title");
+        String titulo = conteudo.get("title");
 
         InputStream inputStream = new URL(urlImage).openStream();
         String nomeArquivo = "saida/" + titulo + ".png";
